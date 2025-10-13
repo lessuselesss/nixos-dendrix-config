@@ -151,7 +151,8 @@
         };
 
         # MCP configuration using secrets
-        home.activation.generateMcpConfig = inputs.home-manager.lib.hm.dag.entryAfter ["writeBoundary"] ''
+        # NOTE: Disabled until sops secrets are re-enabled
+        # home.activation.generateMcpConfig = inputs.home-manager.lib.hm.dag.entryAfter ["writeBoundary"] ''
           $DRY_RUN_CMD mkdir -p ${config.home.homeDirectory}/.claude
 
           # Create MCP config with proper secret substitution
@@ -221,7 +222,7 @@
                              > ${config.home.homeDirectory}/.claude/mcp.json
             $DRY_RUN_CMD chmod 600 ${config.home.homeDirectory}/.claude/mcp.json
           fi
-        '';
+        # '';
       };
 
       extraSpecialArgs = { inherit inputs; };
