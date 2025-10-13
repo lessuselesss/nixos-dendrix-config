@@ -103,6 +103,7 @@
           # Secret management tools
           sops
           age
+          age-plugin-ledger
         ];
 
         # Session variables

@@ -9,7 +9,10 @@
       "Bash(git config:*)",
       "Bash(lsblk:*)",
       "Read(//run/media/lessuseless/Ventoy/lessuseless-backup-2025-10-13/**)",
-      "Read(//home/lessuseless/**)"
+      "Read(//home/lessuseless/**)",
+      "Bash(age-keygen:*)",
+      "Bash(cat:*)",
+      "Bash(nix search:*)"
     ],
     "deny": [],
     "ask": []
