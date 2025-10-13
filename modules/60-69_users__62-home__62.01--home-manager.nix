@@ -104,6 +104,9 @@
           sops
           age
           age-plugin-ledger
+
+          # Ledger hardware wallet
+          ledger-live-desktop
         ];
 
         # Session variables
