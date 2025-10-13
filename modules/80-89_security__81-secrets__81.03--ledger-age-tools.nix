@@ -3,7 +3,7 @@
 { inputs, ... }:
 
 {
-  flake.nixosModules.ledger-age-tools = { config, lib, pkgs, ... }: {
+  flake.nixosModules.ledger-age = { config, lib, pkgs, ... }: {
     home-manager.users.lessuseless = { pkgs, ... }: {
       home.packages = with pkgs; [
         # Development tools for Ledger apps

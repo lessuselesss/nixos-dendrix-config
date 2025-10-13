@@ -48,7 +48,7 @@
       # Security (80-89)
       inputs.self.nixosModules.secrets
       inputs.self.nixosModules.impermanence
-      inputs.self.nixosModules.ledger-age-tools
+      inputs.self.nixosModules.ledger-age
       
       # Base system configuration
       {
