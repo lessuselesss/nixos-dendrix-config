@@ -1,0 +1,12 @@
+{
+  "permissions": {
+    "allow": [
+      "Bash(nix flake update:*)",
+      "Bash(./scripts/validate-modules.sh:*)",
+      "Bash(nix flake check:*)",
+      "Bash(git add:*)"
+    ],
+    "deny": [],
+    "ask": []
+  }
+}

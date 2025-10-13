@@ -1,0 +1,66 @@
+# /etc/nixos/flake.nix
+{
+  description = "A NixOS configuration with a Distrobox flake";
+  inputs = {
+    # The primary package set
+    nixpkgs.url = "github:nixos/nixpkgs/nixos-unstable";
+    # Home Manager now includes the Distrobox module internally
+    home-manager = {
+      url = "github:nix-community/home-manager";
+      inputs.nixpkgs.follows = "nixpkgs";
+    };
+    # Claude Desktop for Linux
+    flake-utils.url = "github:numtide/flake-utils";
+    claude-desktop = {
+      url = "github:lessuselesss/claude-komplete-flake";
+      inputs = {
+        nixpkgs.follows = "nixpkgs";
+        flake-utils.follows = "flake-utils";
+      };
+    };
+    # The external distrobox4nix flake is NO LONGER NEEDED!
+    # We have removed it.
+  };
+  outputs = { self, nixpkgs, home-manager, flake-utils, claude-desktop, ... }@inputs: {
+    nixosConfigurations = {
+      # Your hostname is 'nixos'
+      nixos = nixpkgs.lib.nixosSystem {
+        system = "x86_64-linux";
+        specialArgs = { inherit inputs; };
+        modules = [
+          # Your main system configuration
+          ./configuration.nix
+          # Home Manager setup for the whole system
+          home-manager.nixosModules.home-manager
+          {
+            home-manager = {
+              useGlobalPkgs = true;
+              useUserPackages = true;
+              backupFileExtension = "bkp";
+              # We no longer need 'sharedModules' for distrobox.
+              # The module is now included by default in Home Manager.
+              # Your home.nix will work automatically.
+              users.lessuseless = import ./home.nix;
+              extraSpecialArgs = { inherit inputs; };
+            };
+          }
+        ];
+      };
+    };
+  };
+}
+
+# Then add this to your home.nix file:
+# home.packages = with pkgs; [
+#   # ... your existing packages
+#   inputs.claude-desktop.packages.${system}.claude-desktop-with-fhs
+# ];
+
+# Or alternatively add to your configuration.nix:
+# environment.systemPackages = with pkgs; [
+#   # ... your existing packages  
+#   inputs.claude-desktop.packages.${system}.claude-desktop-with-fhs
+# ];
+
+# Don't forget to ensure unfree packages are enabled in configuration.nix:
+# nixpkgs.config.allowUnfree = true;

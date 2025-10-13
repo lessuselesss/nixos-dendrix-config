@@ -1,0 +1,9 @@
+# .sops.yaml - Configuration for sops encryption
+keys:
+  - &admin_lessuseless age1nnjp7gs2nh9wz0r49zlk6n88ffeph86qk9vem7lzyt8v8fpwpd3sq5hp5x
+
+creation_rules:
+  - path_regex: secrets\.yaml$
+    key_groups:
+      - age:
+          - *admin_lessuseless

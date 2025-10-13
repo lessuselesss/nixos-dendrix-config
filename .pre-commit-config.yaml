@@ -1,0 +1,209 @@
+# Pre-commit hooks for flake-parts module validation and formatting
+# Install with: pre-commit install
+# Run manually: pre-commit run --all-files
+
+repos:
+  # Flake-parts module structure validation
+  - repo: local
+    hooks:
+      - id: validate-flake-modules
+        name: Validate flake-parts module structure
+        entry: scripts/validate-modules.sh
+        language: system
+        files: '^modules/.*\.nix$'
+        pass_filenames: false
+        description: "Ensures all modules follow flake-parts patterns"
+        
+      - id: validate-jdd-naming
+        name: Validate Johnny Decimal Directory naming
+        entry: bash -c '
+          for file in "$@"; do
+            if [[ "$file" =~ ^modules/[0-9]{2}-[0-9]{2}_.*__[0-9]{2}-.*__[0-9]{2}\.[0-9]{2}--.*\.nix$ ]]; then
+              echo "✅ $file: Valid JDD naming"
+            else
+              echo "❌ $file: Invalid JDD naming - should match XX-XX_category__XX-subcategory__XX.XX--description.nix"
+              exit 1
+            fi
+          done
+        '
+        language: system
+        files: '^modules/[0-9]{2}-[0-9]{2}_.*\.nix$'
+        pass_filenames: true
+        description: "Validates Johnny Decimal Directory naming convention"
+        
+      - id: check-nix-imports
+        name: Check for missing Nix imports
+        entry: bash -c '
+          for file in "$@"; do
+            # Check if file uses lib.* without importing lib
+            if grep -q "lib\." "$file" && ! grep -q "{ config, lib, pkgs" "$file" && ! grep -q "{ lib," "$file"; then
+              echo "❌ $file: Uses lib.* but does not import lib in function signature"
+              exit 1
+            fi
+          done
+        '
+        language: system
+        files: '\.nix$'
+        pass_filenames: true
+        description: "Check for missing lib imports in Nix files"
+        
+  # Nix formatting with alejandra
+  - repo: https://github.com/kamadorueda/alejandra
+    rev: 3.0.0
+    hooks:
+      - id: alejandra-check
+        name: Check Nix formatting with alejandra
+        files: '\.nix$'
+        description: "Check Nix code formatting"
+        
+      - id: alejandra-format
+        name: Format Nix files with alejandra
+        files: '\.nix$'
+        stages: [manual]  # Only run when explicitly called
+        description: "Auto-format Nix files"
+        
+  # Shell script validation
+  - repo: https://github.com/shellcheck-py/shellcheck-py
+    rev: v0.10.0.1
+    hooks:
+      - id: shellcheck
+        name: Check shell scripts with shellcheck
+        files: '\.(sh|bash|bats)$'
+        description: "Validate shell script quality and correctness"
+        
+  # Advanced Nix linting and analysis
+  - repo: local
+    hooks:
+      - id: statix-check
+        name: Statix - Nix anti-pattern linting
+        entry: bash -c 'if command -v statix >/dev/null 2>&1; then statix check "$@"; else nix run nixpkgs#statix -- check "$@"; fi'
+        language: system
+        files: '\.nix$'
+        pass_filenames: true
+        description: "Lint Nix code for anti-patterns and improvements"
+        
+      - id: deadnix-check
+        name: Deadnix - Find dead Nix code
+        entry: bash -c 'if command -v deadnix >/dev/null 2>&1; then deadnix --fail "$@"; else nix run nixpkgs#deadnix -- --fail "$@"; fi'
+        language: system
+        files: '\.nix$'
+        pass_filenames: true
+        description: "Find and remove dead Nix code"
+        
+      - id: nix-syntax-check
+        name: Check Nix syntax
+        entry: bash -c 'for file in "$@"; do nix-instantiate --parse "$file" > /dev/null || exit 1; done'
+        language: system
+        files: '\.nix$'
+        description: "Validate Nix syntax"
+        
+      - id: nixpkgs-fmt-check
+        name: Check nixpkgs-fmt formatting
+        entry: bash -c 'if command -v nixpkgs-fmt >/dev/null 2>&1; then nixpkgs-fmt --check "$@"; else nix run nixpkgs#nixpkgs-fmt -- --check "$@"; fi'
+        language: system
+        files: '\.nix$'
+        stages: [manual]  # Alternative formatter to alejandra
+        description: "Check Nix formatting with nixpkgs-fmt"
+        
+      # BATS test runner
+      - id: bats-test
+        name: Run BATS tests
+        entry: bash -c 'if command -v bats >/dev/null 2>&1; then bats tests/; else echo "BATS not installed, skipping tests"; fi'
+        language: system
+        files: '\.bats$|scripts/.*\.sh$'
+        pass_filenames: false
+        stages: [manual]  # Only run when explicitly called
+        description: "Run shell script tests with BATS"
+        
+  # Security and secrets detection
+  - repo: https://github.com/Yelp/detect-secrets
+    rev: v1.4.0
+    hooks:
+      - id: detect-secrets
+        name: Detect secrets in code
+        args: ['--baseline', '.secrets.baseline']
+        exclude: '\.secrets\.baseline$|flake\.lock$|\.age$'
+        description: "Detect hardcoded secrets and credentials"
+        
+  - repo: https://github.com/gitguardian/ggshield
+    rev: v1.25.0
+    hooks:
+      - id: ggshield
+        name: GitGuardian secrets detection
+        language: python
+        stages: [commit]
+        description: "Detect secrets with GitGuardian"
+        
+  # General code quality
+  - repo: https://github.com/pre-commit/pre-commit-hooks
+    rev: v4.5.0
+    hooks:
+      - id: check-added-large-files
+        name: Check for large files
+        args: ['--maxkb=1000']
+        description: "Prevent large files from being committed"
+        
+      - id: check-case-conflict
+        name: Check for case conflicts
+        description: "Check for files with names that would conflict on case-insensitive filesystems"
+        
+      - id: check-merge-conflict
+        name: Check for merge conflicts
+        description: "Check for files that contain merge conflict strings"
+        
+      - id: check-symlinks
+        name: Check for broken symlinks
+        description: "Checks for symlinks which are changed from their target"
+        
+      - id: end-of-file-fixer
+        name: Fix end of files
+        exclude: '\.patch$|\.diff$|\.min\.(js|css)$'
+        description: "Makes sure files end in a newline and only a newline"
+        
+      - id: mixed-line-ending
+        name: Check line endings
+        description: "Replaces or checks mixed line endings"
+        
+      - id: trailing-whitespace
+        name: Trim trailing whitespace
+        exclude: '\.patch$|\.diff$|\.min\.(js|css)$'
+        description: "Trims trailing whitespace"
+        
+  # File permissions and structure
+  - repo: local
+    hooks:
+      - id: executable-scripts
+        name: Make scripts executable
+        entry: bash -c 'for file in "$@"; do chmod +x "$file"; done'
+        language: system
+        files: '^scripts/.*\.(sh|bash)$'
+        pass_filenames: true
+        description: "Ensure shell scripts are executable"
+        
+  # TypeScript/Deno validation for scripts (if any exist)
+  - repo: local
+    hooks:
+      - id: deno-check
+        name: Check Deno TypeScript files
+        entry: bash -c 'if [ -n "$(find scripts -name "*.ts" 2>/dev/null)" ]; then deno check "$@"; fi'
+        language: system
+        files: '^scripts/.*\.ts$'
+        pass_filenames: true
+        description: "Type-check Deno TypeScript files"
+
+# Configuration for specific hooks
+default_stages: [commit]
+fail_fast: false
+
+# Custom hook configurations
+ci:
+  autofix_commit_msg: |
+    [pre-commit.ci] auto fixes from pre-commit hooks
+    
+    for more information, see https://pre-commit.ci
+  autofix_prs: true
+  autoupdate_branch: ''
+  autoupdate_commit_msg: '[pre-commit.ci] pre-commit autoupdate'
+  autoupdate_schedule: weekly
+  skip: []
+  submodules: false
