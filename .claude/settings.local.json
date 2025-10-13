@@ -4,7 +4,12 @@
       "Bash(nix flake update:*)",
       "Bash(./scripts/validate-modules.sh:*)",
       "Bash(nix flake check:*)",
-      "Bash(git add:*)"
+      "Bash(git add:*)",
+      "Bash(git commit:*)",
+      "Bash(git config:*)",
+      "Bash(lsblk:*)",
+      "Read(//run/media/lessuseless/Ventoy/lessuseless-backup-2025-10-13/**)",
+      "Read(//home/lessuseless/**)"
     ],
     "deny": [],
     "ask": []

@@ -26,28 +26,31 @@
         programs.zsh.enable = true;
 
         # Configure sops for secret management
-        sops = lib.mkIf (builtins.pathExists ./../../secrets.yaml) {
-          age.keyFile = "${config.home.homeDirectory}/.config/sops/age/keys.txt";
-          defaultSopsFile = ./../../secrets.yaml;
-
-          secrets = {
-            github-token = {
-              path = "${config.home.homeDirectory}/.config/secrets/github-token";
-            };
-            gemini-api-key = {
-              path = "${config.home.homeDirectory}/.config/secrets/gemini-api-key";
-            };
-            google-api-key = {
-              path = "${config.home.homeDirectory}/.config/secrets/google-api-key";
-            };
-            openrouter-api-key = {
-              path = "${config.home.homeDirectory}/.config/secrets/openrouter-api-key";
-            };
-            anthropic-api-key = {
-              path = "${config.home.homeDirectory}/.config/secrets/anthropic-api-key";
-            };
-          };
-        };
+        # NOTE: Secrets are managed by the existing /etc/nixos configuration
+        # This is commented out for now to allow testing without sops evaluation issues
+        # Uncomment when ready to migrate secrets management to this flake
+        # sops = {
+        #   age.keyFile = "${config.home.homeDirectory}/.config/sops/age/keys.txt";
+        #   defaultSopsFile = ./../../secrets.yaml;
+        #
+        #   secrets = {
+        #     github-token = {
+        #       path = "${config.home.homeDirectory}/.config/secrets/github-token";
+        #     };
+        #     gemini-api-key = {
+        #       path = "${config.home.homeDirectory}/.config/secrets/gemini-api-key";
+        #     };
+        #     google-api-key = {
+        #       path = "${config.home.homeDirectory}/.config/secrets/google-api-key";
+        #     };
+        #     openrouter-api-key = {
+        #       path = "${config.home.homeDirectory}/.config/secrets/openrouter-api-key";
+        #     };
+        #     anthropic-api-key = {
+        #       path = "${config.home.homeDirectory}/.config/secrets/anthropic-api-key";
+        #     };
+        #   };
+        # };
 
         # User packages
         home.packages = with pkgs; [
