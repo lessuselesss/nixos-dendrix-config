@@ -152,76 +152,77 @@
 
         # MCP configuration using secrets
         # NOTE: Disabled until sops secrets are re-enabled
+        # When ready, uncomment the following to generate MCP config with secret substitution
         # home.activation.generateMcpConfig = inputs.home-manager.lib.hm.dag.entryAfter ["writeBoundary"] ''
-          $DRY_RUN_CMD mkdir -p ${config.home.homeDirectory}/.claude
-
-          # Create MCP config with proper secret substitution
-          $DRY_RUN_CMD cat > ${config.home.homeDirectory}/.claude/mcp.json.template << 'EOF'
-          {
-            "mcpServers": {
-              "nixos": {
-                "command": "nix",
-                "args": ["run", "github:utensils/mcp-nixos", "--"]
-              },
-              "github": {
-                "command": "npx",
-                "args": ["-y", "@modelcontextprotocol/server-github"],
-                "env": {
-                  "GITHUB_PERSONAL_ACCESS_TOKEN": "__GITHUB_TOKEN__"
-                }
-              },
-              "github-cli": {
-                "command": "npx",
-                "args": ["gh-cli-mcp"],
-                "env": {},
-                "cwd": ".",
-                "timeout": 30000,
-                "trust": false
-              },
-              "taskmaster-ai": {
-                "command": "npx",
-                "args": ["-y", "--package=task-master-ai", "task-master-ai"],
-                "env": {
-                  "ANTHROPIC_API_KEY": "__ANTHROPIC_API_KEY__",
-                  "GOOGLE_API_KEY": "__GOOGLE_API_KEY__",
-                  "OPENROUTER_API_KEY": "__OPENROUTER_API_KEY__"
-                }
-              },
-              "jj-mcp-server": {
-                "command": "npx",
-                "args": ["-y", "jj-mcp-server"]
-              },
-              "git-mob": {
-                "command": "npx",
-                "args": ["-y", "git-mob-mcp-server"]
-              },
-              "playwright": {
-                "command": "nix",
-                "args": [
-                  "develop",
-                  "/home/lessuseless/Projects/Flakes/claude-code/mcp/playwrite-mcp-flake",
-                  "--command", "npx", "@playwright/mcp"
-                ]
-              }
-            }
-          }
-          EOF
-
-          # Substitute secrets if they exist
-          if [ -f ${config.sops.secrets.github-token.path} ]; then
-            GITHUB_TOKEN=$(cat ${config.sops.secrets.github-token.path})
-            GOOGLE_API_KEY=$(cat ${config.sops.secrets.google-api-key.path})
-            OPENROUTER_API_KEY=$(cat ${config.sops.secrets.openrouter-api-key.path})
-            ANTHROPIC_API_KEY=$(cat ${config.sops.secrets.anthropic-api-key.path})
-
-            $DRY_RUN_CMD sed -e "s/__GITHUB_TOKEN__/$GITHUB_TOKEN/g" \
-                             -e "s/__GOOGLE_API_KEY__/$GOOGLE_API_KEY/g" \
-                             -e "s/__OPENROUTER_API_KEY__/$OPENROUTER_API_KEY/g" \
-                             -e "s/__ANTHROPIC_API_KEY__/$ANTHROPIC_API_KEY/g" \
-                             ${config.home.homeDirectory}/.claude/mcp.json.template \
-                             > ${config.home.homeDirectory}/.claude/mcp.json
-            $DRY_RUN_CMD chmod 600 ${config.home.homeDirectory}/.claude/mcp.json
-          fi
+        #   $DRY_RUN_CMD mkdir -p ${config.home.homeDirectory}/.claude
+        #
+        #   # Create MCP config with proper secret substitution
+        #   $DRY_RUN_CMD cat > ${config.home.homeDirectory}/.claude/mcp.json.template << 'EOF'
+        #   {
+        #     "mcpServers": {
+        #       "nixos": {
+        #         "command": "nix",
+        #         "args": ["run", "github:utensils/mcp-nixos", "--"]
+        #       },
+        #       "github": {
+        #         "command": "npx",
+        #         "args": ["-y", "@modelcontextprotocol/server-github"],
+        #         "env": {
+        #           "GITHUB_PERSONAL_ACCESS_TOKEN": "__GITHUB_TOKEN__"
+        #         }
+        #       },
+        #       "github-cli": {
+        #         "command": "npx",
+        #         "args": ["gh-cli-mcp"],
+        #         "env": {},
+        #         "cwd": ".",
+        #         "timeout": 30000,
+        #         "trust": false
+        #       },
+        #       "taskmaster-ai": {
+        #         "command": "npx",
+        #         "args": ["-y", "--package=task-master-ai", "task-master-ai"],
+        #         "env": {
+        #           "ANTHROPIC_API_KEY": "__ANTHROPIC_API_KEY__",
+        #           "GOOGLE_API_KEY": "__GOOGLE_API_KEY__",
+        #           "OPENROUTER_API_KEY": "__OPENROUTER_API_KEY__"
+        #         }
+        #       },
+        #       "jj-mcp-server": {
+        #         "command": "npx",
+        #         "args": ["-y", "jj-mcp-server"]
+        #       },
+        #       "git-mob": {
+        #         "command": "npx",
+        #         "args": ["-y", "git-mob-mcp-server"]
+        #       },
+        #       "playwright": {
+        #         "command": "nix",
+        #         "args": [
+        #           "develop",
+        #           "/home/lessuseless/Projects/Flakes/claude-code/mcp/playwrite-mcp-flake",
+        #           "--command", "npx", "@playwright/mcp"
+        #         ]
+        #       }
+        #     }
+        #   }
+        #   EOF
+        #
+        #   # Substitute secrets if they exist
+        #   if [ -f ${config.sops.secrets.github-token.path} ]; then
+        #     GITHUB_TOKEN=$(cat ${config.sops.secrets.github-token.path})
+        #     GOOGLE_API_KEY=$(cat ${config.sops.secrets.google-api-key.path})
+        #     OPENROUTER_API_KEY=$(cat ${config.sops.secrets.openrouter-api-key.path})
+        #     ANTHROPIC_API_KEY=$(cat ${config.sops.secrets.anthropic-api-key.path})
+        #
+        #     $DRY_RUN_CMD sed -e "s/__GITHUB_TOKEN__/$GITHUB_TOKEN/g" \
+        #                      -e "s/__GOOGLE_API_KEY__/$GOOGLE_API_KEY/g" \
+        #                      -e "s/__OPENROUTER_API_KEY__/$OPENROUTER_API_KEY/g" \
+        #                      -e "s/__ANTHROPIC_API_KEY__/$ANTHROPIC_API_KEY/g" \
+        #                      ${config.home.homeDirectory}/.claude/mcp.json.template \
+        #                      > ${config.home.homeDirectory}/.claude/mcp.json
+        #     $DRY_RUN_CMD chmod 600 ${config.home.homeDirectory}/.claude/mcp.json
+        #   fi
         # '';
       };
 

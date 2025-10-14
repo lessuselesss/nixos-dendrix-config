@@ -12,7 +12,9 @@
       "Read(//home/lessuseless/**)",
       "Bash(age-keygen:*)",
       "Bash(cat:*)",
-      "Bash(nix search:*)"
+      "Bash(nix search:*)",
+      "Bash(nix-instantiate:*)",
+      "Bash(/dev/null)"
     ],
     "deny": [],
     "ask": []

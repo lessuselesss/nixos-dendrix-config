@@ -7,6 +7,11 @@
     system = "x86_64-linux";
     specialArgs = { inherit inputs; };
     modules = [
+      # Meta/AI Tools (00-09)
+      inputs.self.nixosModules.llamafile-overlay
+      inputs.self.nixosModules.jdd-index
+      inputs.self.nixosModules.jdd-llamafile
+
       # System Foundation (10-19)
       inputs.self.nixosModules.hardware
       inputs.self.nixosModules.boot
