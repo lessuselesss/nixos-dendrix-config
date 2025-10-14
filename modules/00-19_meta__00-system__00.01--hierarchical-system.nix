@@ -21,6 +21,7 @@
       # Desktop Environment (20-29)
       inputs.self.nixosModules.gnome
       inputs.self.nixosModules.audio
+      inputs.self.nixosModules.niri
       
       # Development (30-39)
       inputs.self.nixosModules.rust
