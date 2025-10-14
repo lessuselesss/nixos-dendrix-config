@@ -290,7 +290,20 @@
 
               IMPORTANT: All files are in a flat modules/ directory. The filename itself encodes the hierarchy.
 
-              ${builtins.readFile jddCategories}
+              JDD Self-Describing Filename Convention - Flat file structure in modules/
+
+              Filename Pattern: XX-XX_category__XX-subcategory__XX.XX--description.nix
+
+              Category Ranges (first XX-XX in filename):
+              00-19: Meta/System - System configuration, flake structure, AI tools for organization
+              10-19: System Foundation - Hardware, boot, networking, core packages
+              20-29: Desktop Environment - GNOME, audio, display management
+              30-39: Development - Programming languages, tools, version control, editors
+              40-49: AI & Automation - Ollama, Claude Desktop, MCP servers, AI tools
+              50-59: Applications - User applications, browsers, productivity tools
+              60-69: Users - User accounts, home-manager configurations
+              70-79: Services - System services, VPN, containers, daemons
+              80-89: Security - Secrets, impermanence, encryption, hardware security
 
               Naming convention: XX-XX_category__XX-subcategory__XX.XX--description.nix
               - Use lowercase with hyphens for multi-word names
