@@ -55,6 +55,7 @@
       inputs.self.nixosModules.secrets
       inputs.self.nixosModules.impermanence
       inputs.self.nixosModules.ledger-age
+      inputs.self.nixosModules.keycutter
       
       # Base system configuration
       {
