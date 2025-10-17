@@ -1,0 +1,34 @@
+# Secrets and credentials
+*.key
+*.pem
+*.p12
+*.pfx
+.env
+.env.*
+!.env.example
+secrets/
+.secrets/
+
+# Age/sops keys (encrypted secrets.yaml is OK)
+keys.txt
+age-key.txt
+*.age
+
+# SSH keys
+.ssh/id_*
+.ssh/*.key
+
+# Claude settings (may contain tokens)
+.claude/settings.local.json
+
+# Backup files that might contain secrets
+*.bak
+*.backup
+*.old
+
+# Build artifacts
+result
+result-*
+
+# Nix
+.direnv/
