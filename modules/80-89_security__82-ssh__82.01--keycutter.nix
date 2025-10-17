@@ -16,7 +16,7 @@
     programs.keycutter.package = inputs.keycutter.packages.${pkgs.system}.keycutter;
 
     # Home-manager configuration
-    home-manager.users.lessuseless = { pkgs, ... }: {
+    home-manager.users.lessuseless = { config, pkgs, ... }: {
       # Import keycutter's home-manager module
       imports = [
         inputs.keycutter.homeManagerModules.default

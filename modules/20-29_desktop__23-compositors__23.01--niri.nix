@@ -299,11 +299,13 @@
       # Mako notification daemon
       services.mako = {
         enable = true;
-        backgroundColor = "#1e1e2e";
-        textColor = "#cdd6f4";
-        borderColor = "#7fc8ff";
-        borderRadius = 8;
-        defaultTimeout = 5000;
+        settings = {
+          background-color = "#1e1e2e";
+          text-color = "#cdd6f4";
+          border-color = "#7fc8ff";
+          border-radius = 8;
+          default-timeout = 5000;
+        };
       };
 
       # Swayidle for automatic screen locking

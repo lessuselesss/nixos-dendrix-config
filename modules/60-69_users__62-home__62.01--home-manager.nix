@@ -117,7 +117,7 @@
         };
 
         # Zsh configuration to load API keys from secrets
-        programs.zsh.initExtra = ''
+        programs.zsh.initContent = ''
           # Load API keys from sops-managed secrets if they exist
           if [ -f ~/.config/secrets/gemini-api-key ]; then
             export GEMINI_API_KEY=$(cat ~/.config/secrets/gemini-api-key)

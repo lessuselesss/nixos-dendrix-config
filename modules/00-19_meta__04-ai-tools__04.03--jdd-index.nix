@@ -149,12 +149,10 @@
       # Generate the index at build time
       jddIndexFile = pkgs.runCommand "jdd-index.json" {
         buildInputs = [ jddIndexBuilder ];
+        modulesDir = ./..;  # Reference to modules directory (parent of this file)
       } ''
-        # Get the source directory
-        SRC_DIR="${./../../modules}"
-
         # Build index
-        ${jddIndexBuilder}/bin/jdd-build-index "$SRC_DIR" "$out"
+        ${jddIndexBuilder}/bin/jdd-build-index "$modulesDir" "$out"
       '';
 
       # Generate human-readable documentation
