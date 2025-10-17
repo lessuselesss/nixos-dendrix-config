@@ -3,7 +3,7 @@
 { inputs, ... }:
 
 {
-  flake.nixosConfigurations.nixos-hierarchical-fp = inputs.nixpkgs.lib.nixosSystem {
+  flake.nixosConfigurations.nixos = inputs.nixpkgs.lib.nixosSystem {
     system = "x86_64-linux";
     specialArgs = { inherit inputs; };
     modules = [
