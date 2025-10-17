@@ -35,6 +35,14 @@
     nixpkgs = {
       url = "github:nixos/nixpkgs/nixos-unstable";
     };
+
+    # Nix PR #8892 - Adds flake-schema support for flake output validation
+    # See: https://github.com/NixOS/nix/pull/8892
+    nix-pr-8892 = {
+      url = "github:NixOS/nix?ref=pull/8892/head";
+      inputs.nixpkgs.follows = "nixpkgs";
+    };
+
     rust-overlay = {
       inputs = {
         nixpkgs = {

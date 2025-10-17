@@ -18,18 +18,30 @@
     boot.kernelModules = [ "kvm-intel" ];
     boot.extraModulePackages = [ ];
 
-    # File systems - Btrfs with compression
-    # CRITICAL: System data lives in btrfs root (subvolid=5), NOT in @ subvolume
-    # The @ subvolume is empty and was created by impermanence but never populated
+    # File systems - Btrfs with subvolumes for impermanence
+    # Root @ subvolume - ephemeral, wiped on boot
     fileSystems."/" = {
       device = "/dev/disk/by-uuid/61624efa-38b7-446f-8002-58da5c090c40";
       fsType = "btrfs";
-      options = [ "subvolid=5" "compress=zstd" "noatime" ];  # Using btrfs root where actual data lives
+      options = [ "subvol=@" "compress=zstd" "noatime" ];
     };
 
-    # No separate /nix mount needed - it's in the root filesystem
-    # The @nix subvolume exists but /nix data is actually in subvolid=5
+    # Persistent storage - survives reboots
+    fileSystems."/persistent" = {
+      device = "/dev/disk/by-uuid/61624efa-38b7-446f-8002-58da5c090c40";
+      fsType = "btrfs";
+      options = [ "subvol=@persistent" "compress=zstd" "noatime" ];
+      neededForBoot = true;  # Required before impermanence activates
+    };
 
+    # Nix store - persistent across reboots
+    fileSystems."/nix" = {
+      device = "/dev/disk/by-uuid/61624efa-38b7-446f-8002-58da5c090c40";
+      fsType = "btrfs";
+      options = [ "subvol=@nix" "compress=zstd" "noatime" ];
+    };
+
+    # Home directory
     fileSystems."/home" = {
       device = "/dev/disk/by-uuid/61624efa-38b7-446f-8002-58da5c090c40";
       fsType = "btrfs";

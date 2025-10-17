@@ -77,24 +77,23 @@
     ];
 
     # Boot configuration - clean root subvolume on boot (ephemeral)
-    # TEMPORARILY DISABLED - Enable after verifying impermanence works correctly
-    # boot.initrd.postDeviceCommands = lib.mkAfter ''
-    #   # Create btrfs subvolume structure if not exists
-    #   mkdir -p /mnt
-    #   mount -t btrfs /dev/nvme0n1p2 /mnt
-    #
-    #   # Clean root subvolume on boot (ephemeral)
-    #   if [[ -e /mnt/@ ]]; then
-    #       mkdir -p /mnt/@-old
-    #       timestamp=$(date --date="@$(stat -c %Y /mnt/@)" "+%Y%m%d%H%M%S")
-    #       mv /mnt/@ "/mnt/@-old-$timestamp"
-    #       btrfs subvolume delete -C "/mnt/@-old-$timestamp"
-    #   fi
-    #
-    #   # Create fresh root subvolume
-    #   btrfs subvolume create /mnt/@
-    #
-    #   umount /mnt
-    # '';
+    boot.initrd.postDeviceCommands = lib.mkAfter ''
+      # Mount btrfs root to manage subvolumes
+      mkdir -p /mnt
+      mount -t btrfs -o subvol=/ /dev/disk/by-uuid/61624efa-38b7-446f-8002-58da5c090c40 /mnt
+
+      # Clean root subvolume on boot (ephemeral)
+      if [[ -e /mnt/@ ]]; then
+          mkdir -p /mnt/@-old
+          timestamp=$(date --date="@$(stat -c %Y /mnt/@)" "+%Y%m%d%H%M%S")
+          mv /mnt/@ "/mnt/@-old-$timestamp"
+          btrfs subvolume delete -C "/mnt/@-old-$timestamp"
+      fi
+
+      # Create fresh root subvolume
+      btrfs subvolume create /mnt/@
+
+      umount /mnt
+    '';
   };
 }

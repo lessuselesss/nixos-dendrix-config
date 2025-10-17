@@ -31,6 +31,22 @@ declare -A JDD_CATEGORIES=(
     ["90-99"]="Future/Experimental (reserved for expansion)"
 )
 
+# Meta-System Area (00-09+) Subcategories - System Directory Mapping
+# Maps to important system directories in hierarchical order
+declare -A META_CATEGORIES=(
+    ["00"]="/etc/nixos (source configuration)"
+    ["01"]="/etc (applied system configuration)"
+    ["02"]="Reserved"
+    ["03"]="/nix/store (immutable package store)"
+    ["04"]="/nix (nix system root)"
+    ["05"]="/boot (bootloader and kernel)"
+    ["06"]="/root (root user home)"
+    ["07"]="/run/current-system (active system generation)"
+    ["08"]="/var (variable data and state)"
+    ["09"]="/tmp (temporary files)"
+    ["10"]="/home (user home directories)"
+)
+
 usage() {
     echo "JDD Architect - Johnny Decimal Directory Specialist"
     echo ""
@@ -248,7 +264,49 @@ suggest_module_name() {
     desc_lower="$(echo "$description" | tr '[:upper:]' '[:lower:]')"
     
     # Area detection logic
-    if [[ "$desc_lower" =~ (hardware|boot|kernel|driver) ]]; then
+    # Meta-System Area (00-19) - System Directory Mapping
+    if [[ "$desc_lower" =~ (/etc/nixos|nixos.config|configuration.nix) ]]; then
+        suggested_area="00-19"
+        suggested_category="meta"
+        suggested_subcategory="00-nixos"
+    elif [[ "$desc_lower" =~ (/etc|system.config|etc/) ]]; then
+        suggested_area="00-19"
+        suggested_category="meta"
+        suggested_subcategory="01-etc"
+    elif [[ "$desc_lower" =~ (/nix/store|store|packages) ]]; then
+        suggested_area="00-19"
+        suggested_category="meta"
+        suggested_subcategory="03-store"
+    elif [[ "$desc_lower" =~ (^nix |/nix|nix.system) ]]; then
+        suggested_area="00-19"
+        suggested_category="meta"
+        suggested_subcategory="04-nix"
+    elif [[ "$desc_lower" =~ (/boot|bootloader|grub|systemd-boot) ]]; then
+        suggested_area="00-19"
+        suggested_category="meta"
+        suggested_subcategory="05-boot"
+    elif [[ "$desc_lower" =~ (/root|root.home) ]]; then
+        suggested_area="00-19"
+        suggested_category="meta"
+        suggested_subcategory="06-root"
+    elif [[ "$desc_lower" =~ (/run/current-system|current.system|generation) ]]; then
+        suggested_area="00-19"
+        suggested_category="meta"
+        suggested_subcategory="07-current-system"
+    elif [[ "$desc_lower" =~ (/var|variable.data|state) ]]; then
+        suggested_area="00-19"
+        suggested_category="meta"
+        suggested_subcategory="08-var"
+    elif [[ "$desc_lower" =~ (/tmp|temporary|temp) ]]; then
+        suggested_area="00-19"
+        suggested_category="meta"
+        suggested_subcategory="09-tmp"
+    elif [[ "$desc_lower" =~ (/home|user.home|home.directory) ]]; then
+        suggested_area="00-19"
+        suggested_category="meta"
+        suggested_subcategory="10-home"
+    # System Foundation Area (10-19)
+    elif [[ "$desc_lower" =~ (hardware|boot|kernel|driver) ]]; then
         suggested_area="10-19"
         suggested_category="system"
     elif [[ "$desc_lower" =~ (desktop|gnome|kde|window|display|audio) ]]; then
