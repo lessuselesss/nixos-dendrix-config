@@ -12,7 +12,7 @@
 
         src = prev.fetchurl {
           url = "https://github.com/Mozilla-Ocho/llamafile/releases/download/0.8.13/llamafile-0.8.13";
-          sha256 = "sha256-AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=";  # Placeholder
+          sha256 = "sha256-0KK1xqZlujTiPvUQewCaOw6cKQ4xeiPPTSzH6WkqGB4=";
         };
 
         dontUnpack = true;
