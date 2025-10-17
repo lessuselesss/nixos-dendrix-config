@@ -8,6 +8,7 @@
     specialArgs = { inherit inputs; };
     modules = [
       # Meta/AI Tools (00-09)
+      # inputs.self.nixosModules."00-jdd-system-directories"  # DISABLED - Breaks shell execution
       inputs.self.nixosModules."04.02-llamafile-package"
       inputs.self.nixosModules."04.03-jdd-index"
       inputs.self.nixosModules."04.01-jdd-llamafile-assistant"
