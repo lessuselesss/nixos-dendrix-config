@@ -49,6 +49,9 @@
 
     # Platform configuration
     nixpkgs.hostPlatform = lib.mkDefault "x86_64-linux";
+
+    # Enable firmware (required for WiFi and other hardware)
+    hardware.enableRedistributableFirmware = true;
     hardware.cpu.intel.updateMicrocode = lib.mkDefault config.hardware.enableRedistributableFirmware;
     hardware.ledger.enable = true;
   };
