@@ -10,7 +10,7 @@
       jddModel = pkgs.fetchurl {
         name = "qwen2.5-1.5b-instruct-q4_k_m.gguf";
         url = "https://huggingface.co/Qwen/Qwen2.5-1.5B-Instruct-GGUF/resolve/main/qwen2.5-1.5b-instruct-q4_k_m.gguf";
-        sha256 = "sha256-AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=";  # Will be fixed on first build
+        sha256 = "sha256-ahouttFWIr88loVyBjUbqX4a8Www16dO44lw5DTpQH4=";
         # Using Qwen 2.5 1.5B - smallest, fastest, perfect for filename generation
         # Size: ~1GB
       };
