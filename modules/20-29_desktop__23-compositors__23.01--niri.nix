@@ -3,7 +3,7 @@
 { inputs, ... }:
 
 {
-  flake.nixosModules.niri = { config, lib, pkgs, ... }: {
+  flake.nixosModules."23.01-niri" = { config, lib, pkgs, ... }: {
     # Enable niri compositor
     programs.niri.enable = true;
 

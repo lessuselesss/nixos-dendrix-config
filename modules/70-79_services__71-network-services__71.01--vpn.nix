@@ -3,7 +3,7 @@
 { inputs, ... }:
 
 {
-  flake.nixosModules.vpn = { config, lib, pkgs, ... }: {
+  flake.nixosModules."71.01-vpn" = { config, lib, pkgs, ... }: {
     # Enable Cloudflare WARP
     services.cloudflare-warp.enable = true;
   };

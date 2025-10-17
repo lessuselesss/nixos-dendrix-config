@@ -20,29 +20,6 @@
         "type": "github"
       }
     },
-    "claude-desktop": {
-      "inputs": {
-        "flake-utils": [
-          "flake-utils"
-        ],
-        "nixpkgs": [
-          "nixpkgs"
-        ]
-      },
-      "locked": {
-        "lastModified": 1752048037,
-        "narHash": "sha256-tAZlPir8Fb9fEqecN7Qb0noDaTizSDjToHCr/P2jZNM=",
-        "owner": "lessuselesss",
-        "repo": "claude-komplete-flake",
-        "rev": "e55e5d1edae819b0980bacd9131b2b9f2427f159",
-        "type": "github"
-      },
-      "original": {
-        "owner": "lessuselesss",
-        "repo": "claude-komplete-flake",
-        "type": "github"
-      }
-    },
     "dendrix": {
       "inputs": {
         "import-tree": "import-tree",
@@ -230,6 +207,29 @@
         "type": "github"
       }
     },
+    "keycutter": {
+      "inputs": {
+        "flake-utils": [
+          "flake-utils"
+        ],
+        "nixpkgs": [
+          "nixpkgs"
+        ]
+      },
+      "locked": {
+        "lastModified": 1760464552,
+        "narHash": "sha256-kgpaQyJRVmErjcruCAzgMz6Iu+F97TyvN9fifq0gZn8=",
+        "owner": "lessuselesss",
+        "repo": "keycutter-flake",
+        "rev": "7e6f92c69614a75a614f118577b6a32788c963ce",
+        "type": "github"
+      },
+      "original": {
+        "owner": "lessuselesss",
+        "repo": "keycutter-flake",
+        "type": "github"
+      }
+    },
     "mcp-servers": {
       "inputs": {
         "nixpkgs": [
@@ -347,7 +347,6 @@
     "root": {
       "inputs": {
         "allfollow": "allfollow",
-        "claude-desktop": "claude-desktop",
         "dendrix": "dendrix",
         "devshell": "devshell",
         "flake-file": "flake-file",
@@ -357,6 +356,7 @@
         "home-manager": "home-manager",
         "impermanence": "impermanence",
         "import-tree": "import-tree_2",
+        "keycutter": "keycutter",
         "mcp-servers": "mcp-servers",
         "nixpkgs": "nixpkgs_3",
         "rust-overlay": "rust-overlay_2",

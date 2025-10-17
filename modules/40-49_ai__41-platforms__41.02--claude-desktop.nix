@@ -3,7 +3,7 @@
 { inputs, ... }:
 
 {
-  flake.nixosModules.claude-desktop = { config, lib, pkgs, ... }: {
+  flake.nixosModules."41.02-claude-desktop" = { config, lib, pkgs, ... }: {
     home-manager.users.lessuseless = { pkgs, ... }: {
       home.packages = with pkgs; [
         # TODO: Add Claude Desktop when input is available

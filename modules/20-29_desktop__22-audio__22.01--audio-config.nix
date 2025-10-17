@@ -4,7 +4,7 @@
 
 {
   # Contribute audio configuration as a nixosModule
-  flake.nixosModules.audio = { config, lib, pkgs, ... }: {
+  flake.nixosModules."22.01-audio-config" = { config, lib, pkgs, ... }: {
     # Enable sound with PipeWire
     services.pulseaudio.enable = false;
     security.rtkit.enable = true;

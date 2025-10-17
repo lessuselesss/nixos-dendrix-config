@@ -3,7 +3,7 @@
 { inputs, ... }:
 
 {
-  flake.nixosModules.ollama = { config, lib, pkgs, ... }: {
+  flake.nixosModules."41.01-ollama" = { config, lib, pkgs, ... }: {
     home-manager.users.lessuseless = { pkgs, ... }: {
       home.packages = with pkgs; [
         # Local AI

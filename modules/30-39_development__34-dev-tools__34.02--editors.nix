@@ -3,7 +3,7 @@
 { inputs, ... }:
 
 {
-  flake.nixosModules.editors = { config, lib, pkgs, ... }: {
+  flake.nixosModules."34.02-editors" = { config, lib, pkgs, ... }: {
     home-manager.users.lessuseless = { pkgs, ... }: {
       home.packages = with pkgs; [
         # Editors

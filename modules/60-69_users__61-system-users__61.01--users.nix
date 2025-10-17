@@ -3,7 +3,7 @@
 { inputs, ... }:
 
 {
-  flake.nixosModules.users = { config, lib, pkgs, ... }: {
+  flake.nixosModules."61.01-users" = { config, lib, pkgs, ... }: {
     # Create plugdev group for USB devices
     users.groups.plugdev = {};
 

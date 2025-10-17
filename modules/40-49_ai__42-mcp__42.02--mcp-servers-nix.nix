@@ -10,30 +10,26 @@
   };
 
   # Contribute MCP overlay as a nixosModule
-  flake.nixosModules.mcp-overlay = { pkgs, ... }: {
+  flake.nixosModules."42.02-mcp-overlay" = { pkgs, ... }: {
     nixpkgs.overlays = [
       inputs.mcp-servers.overlays.default
     ];
   };
 
   # Contribute MCP packages via home-manager as a nixosModule
-  flake.nixosModules.mcp-packages = { ... }: {
+  flake.nixosModules."42.02-mcp-packages" = { pkgs, ... }: {
     home-manager.users.lessuseless = { pkgs, ... }: {
       home.packages = with pkgs; [
-        # File system and development tools
+        # File system and development tools - ONLY ONE AT A TIME DUE TO README.md CONFLICTS
         mcp-server-filesystem
-        mcp-server-git
-        mcp-server-fetch
+        # mcp-server-git       # Conflicts with filesystem README.md
+        # mcp-server-fetch     # Conflicts with filesystem README.md
+        # mcp-server-memory    # Conflicts with filesystem README.md
+        # mcp-server-time      # Conflicts with filesystem README.md
+        # mcp-server-everything # Conflicts with filesystem README.md
+        # mcp-server-sequential-thinking # Conflicts with filesystem README.md
 
-        # Memory and time utilities
-        mcp-server-memory
-        mcp-server-time
-
-        # Advanced tools
-        mcp-server-everything
-        mcp-server-sequential-thinking
-
-        # Service integrations
+        # Service integrations - These might work if they don't conflict
         context7-mcp
         github-mcp-server
 

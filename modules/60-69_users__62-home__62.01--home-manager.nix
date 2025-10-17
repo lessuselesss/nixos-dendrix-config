@@ -3,7 +3,7 @@
 { inputs, ... }:
 
 {
-  flake.nixosModules.home-manager = { config, lib, pkgs, ... }: {
+  flake.nixosModules."62.01-home-manager" = { config, lib, pkgs, ... }: {
     imports = [
       inputs.home-manager.nixosModules.home-manager
     ];
@@ -71,7 +71,7 @@
           librewolf
 
           # Development tools
-          cargo
+          # cargo  # Provided by rustup in 81.03-ledger-age-tools
           claude-code
           unzip
           gh

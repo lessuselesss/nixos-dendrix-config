@@ -3,7 +3,7 @@
 { inputs, ... }:
 
 {
-  flake.overlays.llamafile = final: prev: {
+  flake.overlays."04.02-llamafile-package" = final: prev: {
     # Use llamafile from nixpkgs if available, otherwise build from source
     llamafile = if prev ? llamafile then prev.llamafile else
       prev.stdenv.mkDerivation {
@@ -110,9 +110,9 @@
   };
 
   # Apply overlay to system packages
-  flake.nixosModules.llamafile-overlay = { config, lib, pkgs, ... }: {
+  flake.nixosModules."04.02-llamafile-package" = { config, lib, pkgs, ... }: {
     nixpkgs.overlays = [
-      inputs.self.overlays.llamafile
+      inputs.self.overlays."04.02-llamafile-package"
     ];
   };
 }

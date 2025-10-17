@@ -3,7 +3,7 @@
 { inputs, ... }:
 
 {
-  flake.nixosModules.mcp-servers = { config, lib, pkgs, ... }: {
+  flake.nixosModules."42.01-mcp-servers" = { config, lib, pkgs, ... }: {
     home-manager.users.lessuseless = { pkgs, ... }: {
       # MCP server configuration file
       # WARNING: This contains placeholder API keys - implement proper secrets management!

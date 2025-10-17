@@ -3,7 +3,7 @@
 { inputs, ... }:
 
 {
-  flake.nixosModules.version-control = { config, lib, pkgs, ... }: {
+  flake.nixosModules."34.01-version-control" = { config, lib, pkgs, ... }: {
     home-manager.users.lessuseless = { pkgs, ... }: {
       home.packages = with pkgs; [
         # Version control

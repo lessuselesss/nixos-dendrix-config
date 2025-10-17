@@ -4,7 +4,7 @@
 { inputs, ... }:
 
 {
-  flake.nixosModules.jdd-llamafile = { config, lib, pkgs, ... }:
+  flake.nixosModules."04.01-jdd-llamafile-assistant" = { config, lib, pkgs, ... }:
     let
       # Declaratively fetch the LLM model
       jddModel = pkgs.fetchurl {
@@ -262,8 +262,8 @@
     {
       # Require llamafile overlay and JDD index
       imports = [
-        inputs.self.nixosModules.llamafile-overlay
-        inputs.self.nixosModules.jdd-index
+        inputs.self.nixosModules."04.02-llamafile-package"
+        inputs.self.nixosModules."04.03-jdd-index"
       ];
 
       # System packages

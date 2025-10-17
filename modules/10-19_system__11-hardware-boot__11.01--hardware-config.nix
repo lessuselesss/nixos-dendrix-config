@@ -4,7 +4,7 @@
 
 {
   # Contribute to nixosConfigurations by providing a module
-  flake.nixosModules.hardware = { config, lib, pkgs, ... }: {
+  flake.nixosModules."11.01-hardware-config" = { config, lib, pkgs, ... }: {
     # Boot hardware modules
     boot.initrd.availableKernelModules = [ 
       "xhci_pci" 
@@ -18,25 +18,17 @@
     boot.kernelModules = [ "kvm-intel" ];
     boot.extraModulePackages = [ ];
 
-    # File systems - Btrfs with compression and subvolumes
+    # File systems - Btrfs with compression
+    # CRITICAL: System data lives in btrfs root (subvolid=5), NOT in @ subvolume
+    # The @ subvolume is empty and was created by impermanence but never populated
     fileSystems."/" = {
       device = "/dev/disk/by-uuid/61624efa-38b7-446f-8002-58da5c090c40";
       fsType = "btrfs";
-      options = [ "subvol=@" "compress=zstd" "noatime" ];
+      options = [ "subvolid=5" "compress=zstd" "noatime" ];  # Using btrfs root where actual data lives
     };
 
-    fileSystems."/persistent" = {
-      device = "/dev/disk/by-uuid/61624efa-38b7-446f-8002-58da5c090c40";
-      fsType = "btrfs";
-      options = [ "subvol=@persistent" "compress=zstd" "noatime" ];
-      neededForBoot = true;
-    };
-
-    fileSystems."/nix" = {
-      device = "/dev/disk/by-uuid/61624efa-38b7-446f-8002-58da5c090c40";
-      fsType = "btrfs";
-      options = [ "subvolid=5" "compress=zstd" "noatime" ];
-    };
+    # No separate /nix mount needed - it's in the root filesystem
+    # The @nix subvolume exists but /nix data is actually in subvolid=5
 
     fileSystems."/home" = {
       device = "/dev/disk/by-uuid/61624efa-38b7-446f-8002-58da5c090c40";

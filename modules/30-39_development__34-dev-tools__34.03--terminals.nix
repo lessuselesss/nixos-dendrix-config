@@ -3,7 +3,7 @@
 { inputs, ... }:
 
 {
-  flake.nixosModules.terminals = { config, lib, pkgs, ... }: {
+  flake.nixosModules."34.03-terminals" = { config, lib, pkgs, ... }: {
     home-manager.users.lessuseless = { pkgs, ... }: {
       home.packages = with pkgs; [
         # Terminal applications

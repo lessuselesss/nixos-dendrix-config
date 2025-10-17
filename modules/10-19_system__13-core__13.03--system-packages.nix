@@ -4,7 +4,7 @@
 
 {
   # Contribute system configuration as a nixosModule
-  flake.nixosModules.system-packages = { config, lib, pkgs, ... }: {
+  flake.nixosModules."13.03-system-packages" = { config, lib, pkgs, ... }: {
     # Locale settings
     i18n.defaultLocale = "en_US.UTF-8";
 

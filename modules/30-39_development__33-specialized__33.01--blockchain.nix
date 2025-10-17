@@ -3,7 +3,7 @@
 { inputs, ... }:
 
 {
-  flake.nixosModules.blockchain = { config, lib, pkgs, ... }: {
+  flake.nixosModules."33.01-blockchain" = { config, lib, pkgs, ... }: {
     home-manager.users.lessuseless = { pkgs, ... }: {
       home.packages = with pkgs; [
         # Blockchain development

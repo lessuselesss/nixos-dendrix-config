@@ -3,7 +3,7 @@
 { inputs, ... }:
 
 {
-  flake.nixosModules.distrobox = { config, lib, pkgs, ... }: {
+  flake.nixosModules."52.01-distrobox" = { config, lib, pkgs, ... }: {
     home-manager.users.lessuseless = { pkgs, ... }: {
       # Session variables for container integration
       home.sessionVariables = {

@@ -61,13 +61,7 @@
       url = "github:nix-community/impermanence";
     };
 
-    # Claude Desktop and MCP servers
-    claude-desktop = {
-      url = "github:lessuselesss/claude-komplete-flake";
-      inputs.nixpkgs.follows = "nixpkgs";
-      inputs.flake-utils.follows = "flake-utils";
-    };
-
+    # MCP servers
     super-productive-mcp = {
       url = "github:lessuselesss/super-productive-mcp";
       inputs.nixpkgs.follows = "nixpkgs";

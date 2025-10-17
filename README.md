@@ -16,54 +16,84 @@ XX-XX_category__XX-subcategory__XX.XX--description.nix
 - **31.01**: Rust-specific module
 
 ### Flake-Parts Module Structure
-All modules follow consistent flake-parts architecture:
+All modules follow consistent flake-parts architecture with AC.ID-aspect-name:
 ```nix
 { inputs, ... }:
 {
-  flake.nixosModules.MODULE-NAME = { config, lib, pkgs, ... }: {
+  flake.nixosModules."AC.ID-aspect-name" = { config, lib, pkgs, ... }: {
     # NixOS configuration here
+  };
+}
+```
+
+**Example**: `31.01-rust`
+```nix
+{ inputs, ... }:
+{
+  flake.nixosModules."31.01-rust" = { config, lib, pkgs, ... }: {
+    home-manager.users.lessuseless = { pkgs, ... }: {
+      home.packages = with pkgs; [ cargo gcc pkg-config gnumake ];
+    };
   };
 }
 ```
 
 ## 📁 Module Organization
 
+All modules use the **AC.ID-aspect-name** naming convention where:
+- **AC** = Category (two digits within Area range)
+- **ID** = Chronological identifier (two digits)
+- **aspect-name** = Descriptive name
+
+### Meta/AI Tools (00-09)
+- **04.01-jdd-llamafile-assistant** - AI-powered JDD naming assistant
+- **04.02-llamafile-package** - Llamafile package overlay
+- **04.03-jdd-index** - Johnny Decimal module index builder
+
 ### System Foundation (10-19)
-- **hardware** - Hardware configuration and drivers
-- **boot** - Boot loader and kernel settings
-- **networking** - Network configuration and firewall
-- **system-packages** - Core system settings and packages
+- **11.01-hardware-config** - Hardware configuration and drivers
+- **11.02-boot-config** - Boot loader and kernel settings
+- **12.01-networking-config** - Network configuration and firewall
+- **12.02-btrfs-validation** - Btrfs subvolume validation
+- **13.03-system-packages** - Core system settings and packages
 
 ### Desktop Environment (20-29)
-- **gnome** - GNOME desktop environment
-- **audio** - Audio configuration with PipeWire
+- **21.01-gnome-config** - GNOME desktop environment
+- **22.01-audio-config** - Audio configuration with PipeWire
+- **23.01-niri** - Niri Wayland compositor
 
 ### Development (30-39)
-- **rust**, **go**, **python**, **nodejs** - Language toolchains
-- **blockchain** - Ethereum development tools
-- **version-control** - Git, GitHub CLI, Jujutsu
-- **editors** - Zed, Claude Code, development tools
-- **terminals** - Terminal emulators and CLI tools
+- **31.01-rust**, **31.02-go** - Systems programming languages
+- **32.01-python**, **32.02-nodejs** - Application languages
+- **33.01-blockchain** - Ethereum development tools
+- **34.01-version-control** - Git, GitHub CLI, Jujutsu
+- **34.02-editors** - Zed, Claude Code, development tools
+- **34.03-terminals** - Terminal emulators and CLI tools
 
 ### AI & Automation (40-49)
-- **ollama** - Local AI model serving
-- **claude-desktop** - Claude Desktop application
-- **mcp-servers** - Model Context Protocol servers
-- **mcp-overlay**, **mcp-packages** - MCP Nix integration
+- **41.01-ollama** - Local AI model serving
+- **41.02-claude-desktop** - Claude Desktop application
+- **42.01-mcp-servers** - Model Context Protocol servers
+- **42.02-mcp-overlay**, **42.02-mcp-packages** - MCP Nix integration
 
 ### Applications (50-59)
-- **applications** - Desktop applications and utilities
-- **distrobox** - Container definitions and configuration
+- **51.01-applications** - Desktop applications and utilities
+- **52.01-distrobox** - Container definitions and configuration
 
 ### Users (60-69)
-- **users** - System user accounts and permissions
-- **home-manager** - User-level package management
+- **61.01-users** - System user accounts and permissions
+- **62.01-home-manager** - User-level package management
 
 ### Services (70-79)
-- **vpn** - Cloudflare WARP VPN configuration
+- **71.01-vpn** - Cloudflare WARP VPN configuration
 
 ### Security (80-89)
-- **secrets** - Secrets management with sops-nix
+- **81.01-secrets** - Secrets management with sops-nix
+- **81.02-impermanence** - Ephemeral root filesystem
+- **81.03-ledger-age-tools** - Ledger hardware wallet Age tools
+- **81.03-secrets-validation** - Secret exposure validation
+- **82.01-keycutter** - SSH key management
+- **82.01-automated-home-backup** - Automated backup system
 
 ## 🚀 Quick Start
 
@@ -109,10 +139,11 @@ Comprehensive validation with 15+ hooks:
 
 ## 📊 Statistics
 
-- **24 Flake-Parts Modules**: All validated and consistent
-- **5 Major Categories**: System, Desktop, Development, AI, Applications
-- **Enterprise-Grade QA**: 15+ automated quality checks
+- **34 Flake-Parts Modules**: All using AC.ID-aspect-name convention
+- **8 Major Categories**: Meta, System, Desktop, Development, AI, Applications, Users, Services, Security
+- **Enterprise-Grade QA**: 23+ automated quality checks
 - **Zero Configuration Drift**: Automated structure enforcement
+- **Johnny Decimal Index**: AC.ID format (Area.Category.ID)
 
 ## 🔧 Configuration
 
@@ -121,11 +152,11 @@ Comprehensive validation with 15+ hooks:
 - **hierarchical-complete** - Traditional NixOS test configuration
 
 ### Module Composition
-Import individual modules:
+Import individual modules using AC.ID-aspect-name:
 ```nix
-inputs.self.nixosModules.rust
-inputs.self.nixosModules.gnome
-inputs.self.nixosModules.mcp-servers
+inputs.self.nixosModules."31.01-rust"
+inputs.self.nixosModules."21.01-gnome-config"
+inputs.self.nixosModules."42.01-mcp-servers"
 ```
 
 Or use complete system:
@@ -165,9 +196,16 @@ inputs.self.nixosConfigurations.nixos-hierarchical-fp
 
 ### Adding New Modules
 1. Follow JDD naming: `XX-XX_category__XX-subcategory__XX.XX--description.nix`
-2. Use flake-parts structure: `flake.nixosModules.name = { ... }`
-3. Run validation: `scripts/validate-modules.sh`
-4. Test with pre-commit: `pre-commit run --all-files`
+2. Use flake-parts structure with AC.ID-aspect-name: `flake.nixosModules."AC.ID-aspect-name" = { ... }`
+3. Ensure attribute name matches filename pattern (AC, ID, and aspect-name must align)
+4. Run validation: `scripts/validate-modules.sh`
+5. Test with pre-commit: `pre-commit run --all-files`
+
+**Example**: For file `31-01_rust__31.01--rust.nix`:
+- Attribute must be: `flake.nixosModules."31.01-rust"`
+- AC (31) must match filename category
+- ID (01) must match filename ID
+- aspect-name (rust) must match filename description
 
 ### Quality Standards
 - All modules must pass `statix` and `deadnix` checks
@@ -234,14 +272,15 @@ This configuration is **fully prepared** for claude-code proxy integration:
 - **Evaluation testing**: Inspired by upstream flake-parts methodology
 - **Structure enforcement**: Dual validation (shell + TypeScript)
 
-## 📊 Updated Statistics
+## 📊 Detailed Module Statistics
 
-- **25 Validated Modules**: All following flake-parts structure
-- **8 Major Categories**: System → Desktop → Development → AI → Apps → Users → Services → Security
+- **34 Validated Modules**: All using AC.ID-aspect-name convention
+- **8 Major Categories**: Meta (00-09) → System (10-19) → Desktop (20-29) → Development (30-39) → AI (40-49) → Apps (50-59) → Users (60-69) → Services (70-79) → Security (80-89)
 - **23 Quality Checks**: Pre-commit hooks with security, syntax, and structure validation
 - **6-Stage CI Pipeline**: Comprehensive automated quality assurance
 - **15+ MCP Servers**: AI-first development environment
 - **100% Structure Compliance**: Zero configuration drift through automation
+- **Johnny Decimal Compliance**: All modules follow AC.ID-aspect-name pattern
 
 ## 🔮 Future Integration
 

@@ -3,7 +3,7 @@
 { inputs, ... }:
 
 {
-  flake.nixosModules.python = { config, lib, pkgs, ... }: {
+  flake.nixosModules."32.01-python" = { config, lib, pkgs, ... }: {
     home-manager.users.lessuseless = { pkgs, ... }: {
       home.packages = with pkgs; [
         # Python language and tools

@@ -3,7 +3,7 @@
 { inputs, ... }:
 
 {
-  flake.nixosModules.impermanence = { config, lib, pkgs, ... }: {
+  flake.nixosModules."81.02-impermanence" = { config, lib, pkgs, ... }: {
     imports = [
       inputs.impermanence.nixosModules.impermanence
     ];
@@ -77,23 +77,24 @@
     ];
 
     # Boot configuration - clean root subvolume on boot (ephemeral)
-    boot.initrd.postDeviceCommands = lib.mkAfter ''
-      # Create btrfs subvolume structure if not exists
-      mkdir -p /mnt
-      mount -t btrfs /dev/nvme0n1p2 /mnt
-
-      # Clean root subvolume on boot (ephemeral)
-      if [[ -e /mnt/@ ]]; then
-          mkdir -p /mnt/@-old
-          timestamp=$(date --date="@$(stat -c %Y /mnt/@)" "+%Y%m%d%H%M%S")
-          mv /mnt/@ "/mnt/@-old-$timestamp"
-          btrfs subvolume delete -C "/mnt/@-old-$timestamp"
-      fi
-
-      # Create fresh root subvolume
-      btrfs subvolume create /mnt/@
-
-      umount /mnt
-    '';
+    # TEMPORARILY DISABLED - Enable after verifying impermanence works correctly
+    # boot.initrd.postDeviceCommands = lib.mkAfter ''
+    #   # Create btrfs subvolume structure if not exists
+    #   mkdir -p /mnt
+    #   mount -t btrfs /dev/nvme0n1p2 /mnt
+    #
+    #   # Clean root subvolume on boot (ephemeral)
+    #   if [[ -e /mnt/@ ]]; then
+    #       mkdir -p /mnt/@-old
+    #       timestamp=$(date --date="@$(stat -c %Y /mnt/@)" "+%Y%m%d%H%M%S")
+    #       mv /mnt/@ "/mnt/@-old-$timestamp"
+    #       btrfs subvolume delete -C "/mnt/@-old-$timestamp"
+    #   fi
+    #
+    #   # Create fresh root subvolume
+    #   btrfs subvolume create /mnt/@
+    #
+    #   umount /mnt
+    # '';
   };
 }

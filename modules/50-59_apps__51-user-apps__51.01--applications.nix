@@ -3,7 +3,7 @@
 { inputs, ... }:
 
 {
-  flake.nixosModules.applications = { config, lib, pkgs, ... }: {
+  flake.nixosModules."51.01-applications" = { config, lib, pkgs, ... }: {
     home-manager.users.lessuseless = { pkgs, ... }: {
       home.packages = with pkgs; [
         # Web browsers

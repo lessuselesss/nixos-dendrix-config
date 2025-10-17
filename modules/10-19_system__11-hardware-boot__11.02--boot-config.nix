@@ -4,7 +4,7 @@
 
 {
   # Contribute boot configuration as a nixosModule
-  flake.nixosModules.boot = { config, lib, pkgs, ... }: {
+  flake.nixosModules."11.02-boot-config" = { config, lib, pkgs, ... }: {
     # Bootloader configuration
     boot.loader.systemd-boot.enable = true;
     boot.loader.efi.canTouchEfiVariables = true;

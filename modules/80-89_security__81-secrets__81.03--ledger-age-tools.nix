@@ -3,14 +3,14 @@
 { inputs, ... }:
 
 {
-  flake.nixosModules.ledger-age = { config, lib, pkgs, ... }: {
+  flake.nixosModules."81.03-ledger-age-tools" = { config, lib, pkgs, ... }: {
     home-manager.users.lessuseless = { pkgs, ... }: {
       home.packages = with pkgs; [
         # Development tools for Ledger apps
         python3
         pipx
-        rustup
-        cargo
+        rustup  # Includes cargo, so don't add cargo separately
+        # cargo  # Conflicts with rustup which already provides cargo
         gcc
         pkg-config
         libudev-zero

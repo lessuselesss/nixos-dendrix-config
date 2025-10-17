@@ -3,7 +3,7 @@
 { inputs, ... }:
 
 {
-  flake.nixosModules.nodejs = { config, lib, pkgs, ... }: {
+  flake.nixosModules."32.02-nodejs" = { config, lib, pkgs, ... }: {
     home-manager.users.lessuseless = { pkgs, ... }: {
       home.packages = with pkgs; [
         # JavaScript runtimes

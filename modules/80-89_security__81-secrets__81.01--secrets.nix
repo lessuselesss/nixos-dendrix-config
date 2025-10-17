@@ -3,7 +3,7 @@
 { inputs, ... }:
 
 {
-  flake.nixosModules.secrets = { config, lib, pkgs, ... }: {
+  flake.nixosModules."81.01-secrets" = { config, lib, pkgs, ... }: {
     imports = [
       inputs.sops-nix.nixosModules.sops
     ];

@@ -3,7 +3,7 @@
 { inputs, ... }:
 
 {
-  flake.nixosModules.keycutter = { config, lib, pkgs, ... }: {
+  flake.nixosModules."82.01-keycutter" = { config, lib, pkgs, ... }: {
     # Import keycutter's NixOS module from the flake
     imports = [
       inputs.keycutter.nixosModules.default

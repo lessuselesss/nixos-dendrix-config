@@ -4,7 +4,7 @@
 
 {
   # Contribute GNOME configuration as a nixosModule
-  flake.nixosModules.gnome = { config, lib, pkgs, ... }: {
+  flake.nixosModules."21.01-gnome-config" = { config, lib, pkgs, ... }: {
     # Enable the GNOME Desktop Environment
     services.xserver.enable = true;
     services.displayManager.gdm.enable = true;

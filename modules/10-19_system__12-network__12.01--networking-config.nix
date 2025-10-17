@@ -4,7 +4,7 @@
 
 {
   # Contribute networking configuration as a nixosModule
-  flake.nixosModules.networking = { config, lib, pkgs, ... }: {
+  flake.nixosModules."12.01-networking-config" = { config, lib, pkgs, ... }: {
     networking.hostName = "nixos";
     networking.networkmanager.enable = true;
 
