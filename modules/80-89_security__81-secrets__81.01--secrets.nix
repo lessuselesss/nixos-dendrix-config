@@ -8,25 +8,8 @@
       inputs.sops-nix.nixosModules.sops
     ];
 
-    # System-level secrets configuration
-    sops = {
-      defaultSopsFile = ./../../secrets.yaml;
-      age.keyFile = "/home/lessuseless/.config/sops/age/keys.txt";
-
-      # WiFi credentials for NetworkManager
-      secrets = {
-        wifi-ssid = {
-          mode = "0440";
-          owner = "root";
-          group = "networkmanager";
-        };
-        wifi-password = {
-          mode = "0440";
-          owner = "root";
-          group = "networkmanager";
-        };
-      };
-    };
+    # Secrets management is now handled at the home-manager level
+    # This module ensures sops-nix is available system-wide
 
     # System packages for secret management
     environment.systemPackages = with pkgs; [
